@@ -1,0 +1,39 @@
+﻿<Window x:Class="CSGOLyricsConverter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CSGOLyricsConverter"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="CSGOLyricsConverter" Height="480" Width="640">
+    
+    <StackPanel>
+        <Label Margin="8,0,8,8" FontSize="48" DockPanel.Dock="Top" Content="CSGOLyricsConverter"/>
+        <StackPanel Margin="8">
+            <Label Margin="8" FontWeight="Bold" Content="1. Select lyrics file"/>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <Label Content="File"/>
+                <TextBox MinWidth="120" Margin="8,0" Padding="2" VerticalAlignment="Center" IsReadOnly="True" Name="fileInput"/>
+                <Button Width="100" Height="22" Margin="8, 0"  Click="browseFile_click" Content="Select File..."/>
+            </StackPanel>
+            <Separator Margin="8"/>
+            <Label Margin="8" FontWeight="Bold" Content="2. Choose settings"/>
+            <StackPanel Margin="8">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Hotkey"/>
+                    <Image ToolTip="Key to press that enters the next line" Width="16" Height="16" Source="Properties/help-icon.png"/>
+                    <TextBox Name="bindKeyBox" MinWidth="100" Margin="40,0" Padding="2" VerticalAlignment="Center">MOUSE3</TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="CSGO cfg path"/>
+                    <TextBox Name="cfgPathBox" Margin="16,0" MinWidth="100" MaxWidth="400" Padding="2" VerticalAlignment="Center">C:\\Program Files (x86)\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\csgo\\cfg\\lyrics.cfg</TextBox>
+                    <Button Click="defaultCfgPath_click" Margin="-8,0" Padding="4,0" Height="22">Default</Button>
+                </StackPanel>
+            </StackPanel>
+            <Separator Margin="8"/>
+            <Label Margin="8" FontWeight="Bold" Content="3. Convert"/>
+            <Button HorizontalAlignment="Left" Width="100" Height="50" Margin="8" Click="convertFile_click" Content="Convert"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
