@@ -58,6 +58,7 @@ namespace CSGOLyricsConverter
                 }
                 convertedText += "\r\nexec slam\r\nla\r\n1";
                 File.WriteAllText(cfgPath, convertedText);
+                MessageBox.Show(this, "File succesfully converted!", "CSGOLyricsConverter", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch(Exception ex)
             {
