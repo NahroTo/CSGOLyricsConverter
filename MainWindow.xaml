@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CSGOLyricsConverter"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="CSGOLyricsConverter" Height="480" Width="640">
+        Title="CSGOLyricsConverter" Height="480" Width="640" Loaded="Window_Loaded">
     
     <StackPanel>
         <Label Margin="8,0,8,8" FontSize="48" DockPanel.Dock="Top" Content="CSGOLyricsConverter"/>
@@ -15,7 +15,7 @@
             <StackPanel Margin="8" Orientation="Horizontal">
                 <Label Content="File"/>
                 <TextBox MinWidth="120" Margin="8,0" Padding="2" VerticalAlignment="Center" IsReadOnly="True" Name="fileInput"/>
-                <Button Width="100" Height="22" Margin="8, 0"  Click="browseFile_click" Content="Select File..."/>
+                <Button x:Name="browseFileBtn" Width="100" Height="22" Margin="8, 0"  Click="browseFile_click" Content="Select File..."/>
             </StackPanel>
             <Separator Margin="8"/>
             <Label Margin="8" FontWeight="Bold" Content="2. Choose settings"/>
@@ -33,7 +33,7 @@
             </StackPanel>
             <Separator Margin="8"/>
             <Label Margin="8" FontWeight="Bold" Content="3. Convert"/>
-            <Button HorizontalAlignment="Left" Width="100" Height="50" Margin="8" Click="convertFile_click" Content="Convert"/>
+            <Button x:Name="convertFileBtn" HorizontalAlignment="Left" Width="100" Height="50" Margin="8" Click="convertFile_click" Content="Convert"/>
         </StackPanel>
     </StackPanel>
 </Window>
