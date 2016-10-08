@@ -1,73 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using Microsoft.Win32;
+﻿using System.Windows;
 
 namespace CSGOLyricsConverter
 {
     public partial class MainWindow : Window
     {
-        private const string defaultCfgPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\csgo\\cfg\\lyrics.cfg";
-        private string cfgPath;
-        private string bindKey;
-        private string filePath;
+        private LyricsConverter converter = new LyricsConverter();
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        public void browseFile_click(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Text files (*.txt)|*.txt";
-            if (ofd.ShowDialog() == true)
+            if (converter.LoadSteamPath())
             {
-                filePath = ofd.FileName;
-                fileInput.Text = filePath;
+                cfgPathBox.Text = converter.GetDefaultConfigPath();
+                convertFileBtn.IsEnabled = true;
+                return;
             }
+
+            browseFileBtn.IsEnabled = false;
+            convertFileBtn.IsEnabled = false;
+            MessageBox.Show("Steam is not installed on this machine.", "CSGOLyricsConverter", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        public void convertFile_click(object sender, RoutedEventArgs e)
+
+        private void browseFile_click(object sender, RoutedEventArgs e)
         {
-            try
+            if (converter.BrowseLyricsFile())
             {
-                StreamReader sr = new StreamReader(filePath);
-                int lineCount = File.ReadAllLines(filePath).Length;
-                bindKey = bindKeyBox.Text;
-                cfgPath = cfgPathBox.Text;
-                string convertedText = "alias nextLine \"l0\"";
-                convertedText += "\r\nbind " + bindKey + " \"nextLine\"";
-                while (sr.Peek() > 0)
-                {
-                    for (int i = 0; i < lineCount; i++)
-                    {
-                        convertedText += String.Format("\r\nalias l{0} \"say {1};alias nextLine l{2}\"", i, sr.ReadLine(), i + 1);
-                    }
-                }
-                convertedText += "\r\nexec slam\r\nla\r\n1";
-                File.WriteAllText(cfgPath, convertedText);
-                MessageBox.Show(this, "File succesfully converted!", "CSGOLyricsConverter", MessageBoxButton.OK, MessageBoxImage.Information);
+                fileInput.Text = converter.filePath;
+                return;
             }
-            catch(Exception ex)
-            {
-                MessageBox.Show(this, "Select a file please.", "CSGOLyricsConverter", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            MessageBox.Show("Lyrics file path not found!", "CSGOLyricsConverter", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        public void defaultCfgPath_click(object sender, RoutedEventArgs e)
+
+        private void convertFile_click(object sender, RoutedEventArgs e)
         {
-            cfgPathBox.Text = defaultCfgPath;
+            if (converter.IsSteamInstalled)
+                converter.ConvertToLyricsFile(bindKeyBox.Text);
+        }
+
+        private void defaultCfgPath_click(object sender, RoutedEventArgs e)
+        {
+            cfgPathBox.Text = converter.GetDefaultConfigPath();
         }
     }
 }
